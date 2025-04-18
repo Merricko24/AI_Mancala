@@ -185,7 +185,10 @@ class MancalaGameAI(Game):
         # Use the utility rule defined in the project spec
         p1_score = state.board[state.p1_mancala_index]
         p2_score = state.board[state.p2_mancala_index]
-        return p1_score - p2_score if player == 1 else p2_score - p1_score
+        if player == 1:
+            return p1_score - p2_score  
+        else: 
+            return p2_score - p1_score
 
     def terminal_test(self, state):
         # The game is over if either player's pits are empty
