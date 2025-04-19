@@ -168,7 +168,7 @@ class Mancala:
 
 class MancalaGameAI(Game):
     def __init__(self, pits_per_player=6, stones_per_pit=4):
-        # Initialize the starting game state using your Mancala class
+        # Initialize the starting game state
         self.initial = Mancala(pits_per_player, stones_per_pit)
 
     def actions(self, state):
@@ -182,7 +182,7 @@ class MancalaGameAI(Game):
         return next_state
 
     def utility(self, state, player):
-        # Use the utility rule defined in the project spec
+        # Utility function defined in project pdf
         p1_score = state.board[state.p1_mancala_index]
         p2_score = state.board[state.p2_mancala_index]
         if player == 1:
@@ -199,5 +199,17 @@ class MancalaGameAI(Game):
         return state.current_player
 
     def display(self, state):
-        # Call the display function from your Mancala class
         state.display_board()
+
+#----------------- New Utility --------------------
+
+    def utility2(self, state, player):
+        # Utility function based on collected stones and how many stones are on your side (at a discounted rate)
+        p1_score = state.board[state.p1_mancala_index]
+        p2_score = state.board[state.p2_mancala_index]
+        p1_side = sum(state.board[0:3])
+        p2_side = sum(state.board[4:7])
+        if player == 1:
+            return (p1_score - p2_score) + (p1_side - p2_side) * 0.25
+        else: 
+            return (p2_score - p1_score) + (p2_side - p1_side) * 0.25
